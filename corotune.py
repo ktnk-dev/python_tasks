@@ -26,4 +26,99 @@ def func_3125(s: str) -> str:
     return s.replace('1', 'one')
 
 def func_3126(s: str) -> str:
-    return s.replace('@', '')
+    return s.replace('@', '') 
+
+def func_112339(s: str) -> str:
+    return s.split()[0]
+
+def func_112340(s: str) -> str:
+    return s.split()[-1]
+
+def func_112341(s: str) -> str:
+    max = [0, '']
+    for word in s.split(' '):
+        if len(word) > max[0]: max[0], max[1] = len(word), word
+    return '\n'.join(map(str, max[::-1]))
+
+def func_112342(s: str) -> int:
+    return len(s.split())
+
+def func_112343(s: str) -> str:
+    return 'YES' if s == s[::-1] else 'NO'
+
+def func_112344(s: str) -> str:
+    s = s.replace(' ', '')
+    return 'YES' if s == s[::-1] else 'NO'
+
+def func_112345(s: str) -> str:
+    return '\n'.join(s.split('\\'))
+
+def func_112346(s: str) -> str:
+    s = s.split(' ')
+    return f'{s[2]} {s[0][0]}.{s[1][0]}.'
+
+def func_112347(s: str) -> str:
+    s = s.split(' ')
+    return f'{s[1][0]}.{s[2][0]}. {s[0]}'
+
+def func_112348(s: str) -> str:
+    return s.replace(input(), input()) 
+
+def func_112349(s: str) -> int:
+    return len(s.split(input()))-1
+
+def func_112350(s: str) -> str:
+    ft = input()
+    q = s.split('.')
+    if len(q) == 1: return f'{s}.{ft}'
+    else: return ".".join(q[:-1])+f'.{ft}'
+
+def func_112351(s: str) -> int:
+    return int(s, base=16)
+
+def func_112352(s: str) -> int:
+    res = bin(int(s, base=16))
+    return res.replace('0b','')
+
+def func_112353(s: str) -> int:
+    return oct(int(s, base=16)).replace('0o', '')
+
+def func_112354(s: str) -> str:
+    if s[0] == '-': minus = True
+    else: minus = False
+    s = s.replace('-','')
+    ui = input().split()
+    from_base, to_base = ui[0], ui[1]
+
+    dec_num = int(s, base=int(from_base))
+    dgts = []
+    while dec_num:
+        dgts.append(int(dec_num % int(to_base)))
+        dec_num //= int(to_base)
+
+    dgts.reverse()
+    import string
+    if minus: res = '-'
+    else: res = ''
+    for n in dgts:
+        if n > 9: res+= string.ascii_uppercase[n-10]
+        else: res+= str(n)
+
+    return res
+
+def func_112355(s: str) -> int:
+    num = 0
+    rim = {
+        'i': 1,
+        'v': 5,
+        'x': 10,
+        'l': 50,
+        'c': 100,
+        'd': 500,
+        'm': 1000
+        }
+    for k in s:
+        num += rim[k.lower()]
+    return num
+
+    
