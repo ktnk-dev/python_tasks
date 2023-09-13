@@ -46,16 +46,19 @@ color = Color()
         
 
 
+def load_db():
+    db = {}
+    with open('corotune.py', 'r', encoding='utf-8') as file:
+        core = file.read().split(f'def func_')
+        for func in core:
+            try:
+                num = int(func.split('(')[0])
+                db[num] = eval(f'corotune.func_{num}')
+            except ValueError: continue
+    return db
 
 
-db = {
-    3121: corotune.func_3121,
-    3122: corotune.func_3122,
-    3123: corotune.func_3123,
-    3124: corotune.func_3124,
-    3125: corotune.func_3125,
-    3126: corotune.func_3126,
-}
+db = load_db()
 args = ['-loop', '-code']
 
 
@@ -73,6 +76,8 @@ def show_code(num):
                 if int(func.split('(')[0]) == num: 
                     print(f'{color.green()}def func_{func}print(func_{num}(input())){color.reset()}\n')
             except ValueError: continue
+
+
 print(f'\n\n{color.gray()}--- {color.reset()}Задания {color.gray()}---')
 print(f'{color.yellow()}Доступные задачи: {color.green()}{f"{color.gray()}, {color.green()}".join(map(str, db.keys()))}')
 print(f'{color.yellow()}Доступные аргументы: {color.green()}{f"{color.gray()}, {color.green()}".join(args)}')
