@@ -120,4 +120,116 @@ def func_112355(s: str) -> int:
         num += rim[k.lower()]
     return num
 
+def func_2506(s: str) -> int:
+    cur = 0
+    max = 0
+    for i in s:
+        if i == 'C': cur += 1
+        else:
+            if cur > max: max = cur
+            cur = 0
+    return max
+
+def func_2510(s: str) -> int:
+    cur = 0
+    max = 0
+    for i in s:
+        if i in 'ABC': cur += 1
+        else:
+            if cur > max: max = cur
+            cur = 0
+    return max
+
+def func_2520(s: str) -> int:
+    cur = 0
+    max = 0
+    for i in s:
+        if i not in 'AE': cur += 1
+        else:
+            if cur > max: max = cur
+            cur = 0
+    return max
+
+def func_2521(s: str) -> str:
+    cur = ['', 1]
+    max = ['', 1]
+    for i in s:
+        if i == cur[0]: cur[1] += 1
+        else:
+            if cur[1] > max[1]: max = cur
+            cur = [i, 1]
+        
+    if cur[1] > max[1]: max = cur
+    return f'{max[0]} {max[1]}'
+
+def func_2529(s: str) -> str:
+    s = open(f'./files/{s}', 'r').read()
+    import string
+    string.ascii_uppercase
+    max_list = [[],0]
+    cur = ['',0]
+    for j, i in enumerate(s):
+        #print(j/len(s), i, cur, max_list) if j%10000 == 0 else ...
+        cm = string.ascii_uppercase.find(i)
+        if cm > cur[1]:
+            cur[0], cur[1] = cur[0]+i, cm
+        else:
+            if len(cur[0]) > max_list[1]: max_list = [[cur[0]], len(cur[0])]
+            elif cur[0] not in max_list[0] and len(cur[0]) > max_list[1]: max_list[0].append(cur[0])
+            cur = [i, cm]
+    return f'{max_list[0][0]} {max_list[1]}'
+
+def func_2531(s: str) -> str:
+    s = open(f'./files/{s}', 'r').read()
+    import string
+    string.ascii_uppercase
+    max_list = [[],0]
+    cur = ['',99999999, 0]
+    for j, i in enumerate(s):
+        #print(j/len(s), i, cur, max_list) if j%100000 == 0 else ...
+        cm = string.ascii_uppercase.find(i)
+        if cm > cur[1]:
+            cur[0], cur[1] = cur[0]+i, cm
+        else:
+            if len(cur[0]) > max_list[1]: max_list = [[cur[2]], len(cur[0])]
+            elif cur[0] not in max_list[0] and len(cur[0]) > max_list[1]: max_list[0].append(cur[2])
+            cur = [i, cm, j+1]
+    return f'{max_list[0][0]}'
+
+def func_2533(s: str) -> str:
+    s = open(f'./files/{s}', 'r').read()
+    import string
+    string.ascii_uppercase
+    max_list = [[],0]
+    cur = ['',0, 0]
+    for j, i in enumerate(s):
+        print(j/len(s), i, cur, max_list) if j%10000 == 0 else ...
+        cm = string.ascii_uppercase.find(i)
+        if cm < cur[1]:
+            cur[0], cur[1] = cur[0]+i, cm
+        else:
+            if len(cur[0]) > max_list[1]:
+                max_list = [[cur[0]], len(cur[0])]
+            elif cur[0] not in max_list[0] and len(cur[0]) > max_list[1]:
+                max_list[0].append(cur[0])
+            cur = [i, cm, j+1]
+    return f'{max_list[0][0]}'
+
+
+    
+
+
+def func_2518(s: str) -> int:
+    repr = len(max(s.replace('D', ' ').split(), key=len))
+    
+    
+    cur = 0
+    max_num = 0
+    for i in s:
+        if i != 'D': cur += 1
+        else:
+            if cur > max_num: max_num = cur
+            cur = 0
+    return max_num
+
     
