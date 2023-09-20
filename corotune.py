@@ -6,7 +6,7 @@ def func_3121(s: str) -> int:
             else: found = True
     
     if not found: return -2
-    else: return -1
+    else: return -1 
 
 def func_3122(s: str) -> str:
     q = s.split('h')
@@ -61,14 +61,13 @@ def func_112347(s: str) -> str:
     s = s.split(' ')
     return f'{s[1][0]}.{s[2][0]}. {s[0]}'
 
-def func_112348(s: str) -> str:
-    return s.replace(input(), input()) 
+def func_112348(s: str, repl_from: str, repl_to: str) -> str:
+    return s.replace(repl_from, repl_to) 
 
-def func_112349(s: str) -> int:
-    return len(s.split(input()))-1
+def func_112349(s: str, splitter: str) -> int:
+    return len(s.split(splitter))-1
 
-def func_112350(s: str) -> str:
-    ft = input()
+def func_112350(s: str, ft: str) -> str:
     q = s.split('.')
     if len(q) == 1: return f'{s}.{ft}'
     else: return ".".join(q[:-1])+f'.{ft}'
@@ -83,11 +82,11 @@ def func_112352(s: str) -> int:
 def func_112353(s: str) -> int:
     return oct(int(s, base=16)).replace('0o', '')
 
-def func_112354(s: str) -> str:
+def func_112354(s: str, ui: str) -> str:
     if s[0] == '-': minus = True
     else: minus = False
     s = s.replace('-','')
-    ui = input().split()
+    ui = ui.split()
     from_base, to_base = ui[0], ui[1]
 
     dec_num = int(s, base=int(from_base))
@@ -101,8 +100,8 @@ def func_112354(s: str) -> str:
     if minus: res = '-'
     else: res = ''
     for n in dgts:
-        if n > 9: res+= string.ascii_uppercase[n-10]
-        else: res+= str(n)
+        if n > 9: res += string.ascii_uppercase[n-10]
+        else: res += str(n)
 
     return res
 

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Executer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    text-decoration: none;
+} 
+
+
+pre, code, .hljs {
+    font-family: 'Fira Code', monospace;
+    color: #ffffff;
+    background: #222;
+    border-radius: 20px;
+} .hljs-keyword{
+    font-family: 'Fira Code', monospace;
+    color: #fc9aff;
+} .hljs-built_in{
+    font-family: 'Fira Code', monospace;
+    color: #fdff9a;
+} .hljs-number{
+    font-family: 'Fira Code', monospace;
+    color: #9affc1;
+} .hljs-string{
+    font-family: 'Fira Code', monospace;
+    color: #9ac2ff;
+} .hljs-subst {
+    font-family: 'Fira Code', monospace;
+    color: #df9aff; 
+} .hljs-title {
+    font-family: 'Fira Code', monospace;
+    color: #ce9aff;  
+} .hljs-params {
+    font-family: 'Fira Code', monospace;
+    color: #9aff9a;  
+} .hljs-literal {
+    color: #ff9ab8;  
+}
+
+
+body {
+    background: #000;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    background-color: #282828;
+    border-radius: 20px;
+    margin: 10px;
+    padding: 10px 20px;
+}
+
+header > .title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} #hash {
+    font-family: 'Fira Code', monospace;
+    color: #9affc1;
+    margin-left: 10px;
+    margin-top: 4px;
+    font-size: 14px;
+} header > .btns > button {
+    height: 100%;
+    padding: 0 10px;
+    background-color: #444;
+    border: 0;
+    border-radius: 20px;
+    color: #fff;
+    margin-left: 5px;
+    cursor: pointer;
+    transition: background .4s;
+} header > .btns > button:hover {
+    background-color: #777;
+} header > .btns > button:active {
+    transition: background 0s;
+    background-color: #999;
+}
+#tasks {
+    margin: 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    /* display: none; */
+} .task {
+    flex-grow: 10;
+    margin: 0 10px 10px;
+    display: flex;
+    align-items: center;
+    background-color: #191919;
+    border-radius: 20px;
+    padding-right: 10px;
+    transition: background .4s;
+} .task > .title {
+    width: 100%;
+    border-radius: 20px;
+    padding: 10px;
+    padding-right: 40px;
+    margin-right: 10px;
+    background-color: #222;
+    transition: background .4s;
+} .task > .title > h3 {
+    margin-bottom: 5px;
+} .task:hover, .task > .title:hover{
+    cursor: pointer;
+    background-color: #333;
+}
+
+#active {
+    display: flex;
+    flex-direction: column;
+    margin: 20px 10px 10px;
+} #active > .title {
+    display: flex;
+    justify-content: space-between;
+} #active > .title > div > button {
+    margin-right: 5px;
+
+}
+
+#active > .title > h1 > code {
+    padding: 0 5px; border-radius: 5px;
+}
+
+.runner {
+    margin: 15px 0 20px;
+    display: flex;
+    
+} #input {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+    display: flex;
+    flex-direction: column;
+
+} #input > h2 {
+    margin-bottom: 10px;
+
+} input {
+    background-color: #333;
+    font-family: 'Fira Code', monospace;
+    color: #fff;
+    border: 0;
+    border-radius: 100px;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+
+    
+} #input > button, #active > .title > div > button {
+    border: 0;
+    border-radius: 30px;
+    
+    padding: 7px 14px;
+    opacity: .9;
+    transition: .4s;
+} #input > button:hover, #active > .title > div > button:hover {
+    cursor: pointer;
+    opacity: .95;
+    padding: 7px 20px;
+
+} #input > button {
+    margin: 0 auto;
+}
+#output {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+} #output > #output_result {
+    padding: 5px 10px;
+    font-family: 'Fira Code', monospace;
+    margin-bottom: 15px;
+} #output > h2 {
+    margin-bottom: 5px;
+} #output > h3 > code {
+    font-size: 17px;
+    padding: 0 5px; border-radius: 5px;
+} #active > pre {
+    margin: 10px 0 30px;
+}
+</style>
+</head>
+<body>
+    
+    <header>
+        <div class="title">
+            <h2>Executor</h2>
+            <span id="hash" style="color: #fdff9a;">updating...</span>
+        </div>
+        <div class="btns">
+            <button onclick="update()">Update</button>
+            <button>Github</button>
+        </div>    
+    </header>
+
+    <section id="tasks">
+        <div class="task">
+            <div class="title">
+                <h3>119301</h3>
+                <p>3 inputs, 68 bytes</p>
+            </div>
+            <div class="btns">
+                <span class="fa fa-angle-double-right" style="color: #fff;"></span>
+            </div>
+        </div>
+    </section>
+
+    <section id="active">
+        <div class="title">
+            <h1>Task: <code>112431</code></h1>
+            <div>
+                <button>Return back</button>
+                <button>Open task URL</button>
+            </div>
+        </div>
+        <div class="runner">
+            <div id="input">
+                <h2>Input</h2>
+                <input type="text" id="input:1" placeholder="1 input">
+                <!-- <input type="text" id="input:2" placeholder="2 input"> -->
+                <button>Execute</button>
+            </div>
+            <div id="output">
+                <h2>Output</h2>
+                <code id="output_result">1501</code>
+                <h3>Time: <code id="output_time">0.0003s</code></h3>
+            </div>
+        </div>
+        <h2>Code</h2>
+        <pre><code class="language-python" id="code">def func_112355(s: str) -> int:
+    num = 0
+    rim = {
+        'i': 1,
+        'v': 5,
+        'x': 10,
+        'l': 50,
+        'c': 100,
+        'd': 500,
+        'm': 1000
+        }
+    for k in s: num += rim[k.lower()]
+    return num
+
+print(func_112355(input()))</code></pre>
+
+    </section>
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+<script>
+
+var db = {}
+var state = 'main'
+var active_task = 0
+var server = 'http://127.0.0.1:12943'
+
+render = {
+    remove: () => {
+        try { document.getElementById('active').remove() } catch {}
+        try { document.getElementById('tasks').remove() } catch {}
+    },
+    run: () => {
+        document.getElementById('hash').innerHTML = '#'+db.hash
+        document.getElementById('hash').style.color = '#9affc1'
+        if (state == 'main') {
+            render.tasks()
+        } else if (state == 'active') {
+            render.active(active_task)
+        }
+    },
+    tasks: () => {
+        render.remove()
+        func_inner = ''
+        for (let i = 0; i < Object.keys(db.functions).length; i++) {
+            const key = Object.keys(db.functions)[i];
+            const func = db.functions[key];
+            func_inner += `
+<div class="task">
+    <div class="title" onclick="render.active(${key})">
+        <h3>${key}</h3>
+        <p>${func.inputs} inputs, ${func.code.length} bytes</p>
+    </div>
+    <div class="btns">
+        <span class="fa fa-angle-double-right" style="color: #fff;"></span>
+    </div>
+</div> `
+        }
+        document.body.innerHTML += `<section id="tasks">${func_inner}</section>` 
+    },
+    active: (id = 0) => {
+        render.remove()
+
+    }
+}
+
+
+
+async function update() {
+    document.getElementById('hash').innerHTML = 'updating...'
+    document.getElementById('hash').style.color = '#fdff9a'
+    fetch(`${server}/`, {
+        method: 'get',
+    }).then(r => {
+        if (!r.ok) {
+            document.getElementById('hash').innerHTML = 'offline'
+            document.getElementById('hash').style.color = '#ff9ab8'
+            alert('Please run api.py!')
+            window.location.reload()
+        } else {
+            return r.json()
+        }
+    }).then(r => {
+        db = r
+        console.log(r);
+        render.run()
+
+    })
+}
+
+update()
+
+hljs.highlightAll();
+</script>
+</body>
+</html>
