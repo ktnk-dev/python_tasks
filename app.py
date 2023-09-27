@@ -4,7 +4,7 @@ import functions
         
 color = functions.Color()
 db = functions.load_db()
-args = ['-code']
+args = ['-code', '-s']
 
 
 
@@ -34,7 +34,7 @@ print(f'{color.gray()}Укажите номер задачи, при необх�
 while True:
     db = functions.load_db()
     try: 
-        u = input(f'{color.yellow()}{functions.get_hash()}{color.gray()} > {color.cyan()}mainloop {color.gray()}> {color.magenta()}').split(' ')
+        u = input(f'\n{color.yellow()}{functions.get_hash()}{color.gray()} > {color.cyan()}mainloop {color.gray()}> {color.magenta()}').split(' ')
         num = int(u[0])
         try: arg = u[1]
         except: arg = '-loop'
@@ -44,7 +44,7 @@ while True:
     except KeyboardInterrupt:
         exit()
 
-    print(f'\n{color.cyan()}https://informatics.msk.ru/mod/statements/view.php?chapterid={num}{color.reset()}')
+    # print(f'\n{color.cyan()}https://informatics.msk.ru/mod/statements/view.php?chapterid={num}{color.reset()}')
 
     if arg == '-loop': 
         while run(num): pass

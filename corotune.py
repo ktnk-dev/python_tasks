@@ -215,14 +215,7 @@ def func_2533(s: str) -> str:
             cur = [i, cm, j+1]
     return f'{max_list[0][0]}'
 
-
-    
-
-
 def func_2518(s: str) -> int:
-    repr = len(max(s.replace('D', ' ').split(), key=len))
-    
-    
     cur = 0
     max_num = 0
     for i in s:
@@ -232,4 +225,57 @@ def func_2518(s: str) -> int:
             cur = 0
     return max_num
 
+
+
+def func_2538(file_name: str) -> int:
+    data = ''
+    with open(f'./files/{file_name}', 'r', encoding='utf-8') as file: data = file.read()
+    max_len = 0
+    cur_len = 0
+    state = False
+    for v in data:
+        if v == '(': # match -> case проще
+            if state: 
+                state = False
+                if cur_len > max_len: max_len = cur_len
+                cur_len = 0
+            else: state = True
+        elif v == ')':
+            if state: 
+                cur_len += 1
+                state = False
+            else: 
+                state = False
+                if cur_len > max_len: max_len = cur_len
+                cur_len = 0
+    if cur_len > max_len: max_len = cur_len
+    return max_len
     
+def func_2548(file_name: str) -> int:
+    data = ''
+    with open(f'./files/{file_name}', 'r', encoding='utf-8') as file: data = file.read()
+    return len(data.split('KTOS'))-1
+
+
+def func_2715(file_name: str) -> int:
+    data = ''
+    with open(f'./files/{file_name}', 'r', encoding='utf-8') as file: data = file.read()
+    max_len = 0
+    cur_len = 0
+    is_odd_cur = False
+    for v in data:
+        if int(v)%2:
+            if not is_odd_cur:
+                if cur_len > max_len: max_len = cur_len
+                cur_len = 1
+                is_odd_cur = True
+            else: cur_len += 1
+        else: 
+            if is_odd_cur:
+                if cur_len > max_len: max_len = cur_len
+                cur_len = 1
+                is_odd_cur = False
+            else: cur_len += 1
+    if cur_len > max_len: max_len = cur_len
+    return max_len
+
