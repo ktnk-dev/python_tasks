@@ -251,6 +251,7 @@ def func_2538(file_name: str) -> int:
     if cur_len > max_len: max_len = cur_len
     return max_len
     
+
 def func_2548(file_name: str) -> int:
     data = ''
     with open(f'./files/{file_name}', 'r', encoding='utf-8') as file: data = file.read()
@@ -279,3 +280,157 @@ def func_2715(file_name: str) -> int:
     if cur_len > max_len: max_len = cur_len
     return max_len
 
+def func_3155_main_runtime(file_name: str, find_value: str) -> str:
+    data = ''
+    with open(f'./files/{file_name}', 'r', encoding='utf-8') as file: data = file.read()
+    res = {}
+    foundA = False
+    for v in data:
+        if v == find_value: foundA = True
+        elif foundA:
+            res[v] = res[v] + 1 if v in res else 1
+            foundA = False
+    cm = 0
+    result = ''
+    for k, v in res.items():
+        if v > cm:
+            result = f'{k}{v}'
+            cm = v
+    return result
+
+
+def func_3155(f): return func_3155_main_runtime(f, 'A')
+def func_3156(f): return func_3155_main_runtime(f, 'X')
+
+def func_3158(file_name: str) -> str:
+    data = ''
+    with open(f'./files/{file_name}', 'r', encoding='utf-8') as file: data = file.read()
+    res = {}
+    for i, v in enumerate(data):
+        try:
+            if data[i-1] == 'A' and data[i+1] == 'C': res[v] = res[v] + 1 if v in res else 1
+        except: pass
+         
+            
+    cm = 0
+    result = ''
+    for k, v in res.items():
+        if v > cm:
+            result = f'{k}{v}'
+            cm = v
+    return result
+
+
+def func_3748(file_name: str) -> str:
+    data = ''
+    with open(f'./files/{file_name}', 'r', encoding='utf-8') as file: data = file.read()
+    res = {}
+    for i, v in enumerate(data):
+        try:
+            if data[i-2] == data[i-1]: res[v] = res[v] + 1 if v in res else 1
+        except: pass
+         
+            
+    cm = 0
+    result = ''
+    for k, v in res.items():
+        if v > cm:
+            result = f'{k}{v}'
+            cm = v
+    return result
+
+
+def func_3749(file_name: str) -> str:
+    data = ''
+    with open(f'./files/{file_name}', 'r', encoding='utf-8') as file: data = file.read()
+    res = {}
+    for i, v in enumerate(data):
+        try:
+            if data[i+2] == data[i+1]: res[v] = res[v] + 1 if v in res else 1
+        except: pass
+         
+            
+    cm = 0
+    result = ''
+    for k, v in res.items():
+        if v > cm:
+            result = f'{k}{v}'
+            cm = v
+    return result
+
+
+def func_3750(file_name: str) -> str:
+    data = ''
+    with open(f'./files/{file_name}', 'r', encoding='utf-8') as file: data = file.read()
+    res = {}
+    for i, v in enumerate(data):
+        try:
+            if data[i-1] == data[i+1]: res[v] = res[v] + 1 if v in res else 1
+        except: pass
+         
+            
+    cm = 0
+    result = ''
+    for k, v in res.items():
+        if v > cm:
+            result = f'{k}{v}'
+            cm = v
+    return result
+
+
+
+
+def func_3351_runtime(file_name: str) -> int:
+    data = ''
+    with open(f'./files/{file_name}', 'r', encoding='utf-8') as file: data = file.read()
+    res = [[], 0]
+    cur = [[], 99999]
+
+    for i, v in enumerate(data):
+        
+        if ord(v) < cur[1]:
+            cur[0].append(i)
+            cur[1] = ord(v)
+        else:
+            if len(cur[0]) > res[1]: res = [[cur[0]], len(cur[0])]
+            elif len(cur[0]) == res[1]: res[0].append(cur[0])
+            cur = [[i], 999999]
+        print(f'\n\n{i} ({ord(v)}): ', cur, res)
+    if len(cur[0]) > res[1]: res = [[cur[0]], len(cur[0])]
+    elif len(cur[0]) == res[1]: res[0].append(cur[0])
+    return res
+
+def func_3351(file_name: str) -> int: return func_3351_runtime(file_name)[0][0][0]
+def func_3352(file_name: str) -> int: return func_3351_runtime(file_name)[0][1][0]
+def func_3353(file_name: str) -> int: return func_3351_runtime(file_name)[0][2][0]
+
+def func_3354(file_name: str) -> str:
+    chrs = func_3351_runtime(file_name)[0][0]
+    print(chrs)
+    data = ''
+    with open(f'./files/{file_name}', 'r', encoding='utf-8') as file: data = file.read()
+    res = ''
+    for c in chrs: res += data[c]
+
+    return res
+
+
+def func_3438(file_name: str) -> str:
+    data = ''
+    with open(f'./files/{file_name}', 'r', encoding='utf-8') as file: data = file.read()
+    cnt = 0 
+    for i, v in enumerate(data):
+        try:
+            test = data[i] + data[i+1] + data[i+2] + data[i+3] + data[i+4]
+            if test == test[::-1]: cnt += 1
+        except: pass
+
+    return cnt
+    
+def func_3439(file_name: str) -> str:
+    data = ''
+    with open(f'./files/{file_name}', 'r', encoding='utf-8') as file: data = file.read()
+    cnt = 0 
+    for i, v in enumerate(data):
+        if v == data[-i-1]: cnt += 1
+    return cnt//2
