@@ -1,6 +1,7 @@
 import functions, corotune, importlib
 color = functions.Color()
 include = ''
+command_prefix = '#'
 code_show = False
 url_show = True
 infinity = False
@@ -10,11 +11,11 @@ while True:
     try: task_id = input(f'\n{color.yellow()}main {functions.lim(color.magenta())} ')
     except KeyboardInterrupt: exit()
     search_results = []
-    if task_id.startswith('/'):
-        command = task_id.split(' ')[0]
+    if task_id.startswith(command_prefix):
+        command = task_id.split(' ')[0][1:]
         query = task_id.split(' ')[1] if len(task_id.split(' ')) > 1 else ''
 
-        if command == '/only':
+        if command == 'only':
             for runtime in corotune.data:
                 if query.lower() in runtime: 
                     search_results.append(runtime)
@@ -37,7 +38,7 @@ while True:
             else: include = search_results[0]
             print(f'{color.green()}Current runtime: {include}\n')
 
-        if command == '/loop':
+        if command == 'loop':
             if infinity:
                 infinity = False
                 print(f'{color.red()}Task loop disabled\n')
@@ -46,7 +47,7 @@ while True:
                 print(f'{color.green()}Task loop enabled\n')
         
 
-        if command == '/code':
+        if command == 'code':
             if code_show:
                 code_show = False
                 print(f'{color.red()}Code showing disabled\n')
@@ -54,7 +55,7 @@ while True:
                 code_show = True
                 print(f'{color.green()}Code showing enabled\n')
 
-        if command == '/url':
+        if command == 'url':
             if url_show:
                 url_show = False
                 print(f'{color.red()}URL showing disabled\n')
