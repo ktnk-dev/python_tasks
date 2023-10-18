@@ -1,6 +1,6 @@
 from functions import file
 
-class polakov:
+class test:
     def _2(string: str) -> int:
         return f'123: {string}'
     
@@ -68,10 +68,10 @@ class hw1:
 
 
 data = {
-    'polakov': {
-        'descr': 'Задачи с сайта полякова',
+    'test': {
+        'descr': 'Тестовые задачи',
         'baseurl': None,
-        'index': True
+        'index': None
     },
 
     'hw1': {
