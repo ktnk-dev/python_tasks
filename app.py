@@ -67,16 +67,15 @@ while True:
 
     
     else:    
-        
-        for runtime in corotune.data:
-            if not corotune.data[runtime]['index']: continue 
-            if task_id.lower() in functions.info(runtime): 
-                search_results.append(runtime)
+        if include == '':
+            for runtime in corotune.data:
+                if not corotune.data[runtime]['index']: continue 
+                if task_id.lower() in functions.info(runtime): 
+                    search_results.append(runtime)
             
-        if search_results == []:
-            print(f'{color.red()}Not found\n')
-            continue
-        elif include == '':
+            if search_results == []:
+                print(f'{color.red()}Not found\n')
+                continue
             if len(search_results) != 1:
                 class_name = ''
                 search_query = input(f'''{color.yellow()}{f"{functions.lim(color.yellow(),', ')}".join(search_results)} {functions.lim(color.magenta())} ''').lower()
@@ -90,7 +89,12 @@ while True:
                     continue  
 
             else: class_name = search_results[0]
-        else: class_name = include
+        else: 
+            class_name = include
+            if task_id.lower() not in functions.info(runtime): 
+                print(f'{color.red()}Not found\n')
+                continue
+                   
 
         print(f'{color.blue()}{functions.code(class_name, task_id)}\n') if code_show else ...
         if corotune.data[class_name]["baseurl"] and url_show: print(f'{color.blue()}URL: {color.cyan()}{corotune.data[class_name]["baseurl"].replace("%i", str(task_id))}')
