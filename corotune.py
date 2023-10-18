@@ -1,436 +1,81 @@
-def func_3121(s: str) -> int:
-    found = False
-    for i, v in enumerate(s):
-        if v == 'f':
-            if found: return i
-            else: found = True
+from functions import file
+
+class polakov:
+    def _2(string: str) -> int:
+        return f'123: {string}'
     
-    if not found: return -2
-    else: return -1 
+    def _file(filename: str) -> int:
+        return file(filename)[:50]+'...'
+    
+    def _add(a, b) -> int:
+        return int(a)+int(b)
 
-def func_3122(s: str) -> str:
-    q = s.split('h')
-    return f'{q[0]}{q[-1]}'
 
-def func_3123(s: str) -> str: 
-    q = s.split('h')
-    iq = 'h'.join(q[1:-1])[::-1]
-    return f'{q[0]}h{iq}h{q[-1]}'
-
-def func_3124(s: str) -> str:
-    q = s.split('h')
-    iq = 'h'.join(q[1:-1])
-    return f'{q[0]}h{iq*2}h{q[-1]}'
-
-def func_3125(s: str) -> str:
-    return s.replace('1', 'one')
-
-def func_3126(s: str) -> str:
-    return s.replace('@', '') 
-
-def func_112339(s: str) -> str:
-    return s.split()[0]
-
-def func_112340(s: str) -> str:
-    return s.split()[-1]
-
-def func_112341(s: str) -> str:
-    max = [0, '']
-    for word in s.split(' '):
-        if len(word) > max[0]: max[0], max[1] = len(word), word
-    return '\n'.join(map(str, max[::-1]))
-
-def func_112342(s: str) -> int:
-    return len(s.split())
-
-def func_112343(s: str) -> str:
-    return 'YES' if s == s[::-1] else 'NO'
-
-def func_112344(s: str) -> str:
-    s = s.replace(' ', '')
-    return 'YES' if s == s[::-1] else 'NO'
-
-def func_112345(s: str) -> str:
-    return '\n'.join(s.split('\\'))
-
-def func_112346(s: str) -> str:
-    s = s.split(' ')
-    return f'{s[2]} {s[0][0]}.{s[1][0]}.'
-
-def func_112347(s: str) -> str:
-    s = s.split(' ')
-    return f'{s[1][0]}.{s[2][0]}. {s[0]}'
-
-def func_112348(s: str, repl_from: str, repl_to: str) -> str:
-    return s.replace(repl_from, repl_to) 
-
-def func_112349(s: str, splitter: str) -> int:
-    return len(s.split(splitter))-1
-
-def func_112350(s: str, ft: str) -> str:
-    q = s.split('.')
-    if len(q) == 1: return f'{s}.{ft}'
-    else: return ".".join(q[:-1])+f'.{ft}'
-
-def func_112351(s: str) -> int:
-    return int(s, base=16)
-
-def func_112352(s: str) -> int:
-    res = bin(int(s, base=16))
-    return res.replace('0b','')
-
-def func_112353(s: str) -> int:
-    return oct(int(s, base=16)).replace('0o', '')
-
-def func_112354(s: str, ui: str) -> str:
-    if s[0] == '-': minus = True
-    else: minus = False
-    s = s.replace('-','')
-    ui = ui.split()
-    from_base, to_base = ui[0], ui[1]
-
-    dec_num = int(s, base=int(from_base))
-    dgts = []
-    while dec_num:
-        dgts.append(int(dec_num % int(to_base)))
-        dec_num //= int(to_base)
-
-    dgts.reverse()
-    import string
-    if minus: res = '-'
-    else: res = ''
-    for n in dgts:
-        if n > 9: res += string.ascii_uppercase[n-10]
-        else: res += str(n)
-
-    return res
-
-def func_112355(s: str) -> int:
-    num = 0
-    rim = {
-        'i': 1,
-        'v': 5,
-        'x': 10,
-        'l': 50,
-        'c': 100,
-        'd': 500,
-        'm': 1000
-        }
-    for k in s:
-        num += rim[k.lower()]
-    return num
-
-def func_2506(s: str) -> int:
-    cur = 0
-    max = 0
-    for i in s:
-        if i == 'C': cur += 1
-        else:
-            if cur > max: max = cur
-            cur = 0
-    return max
-
-def func_2510(s: str) -> int:
-    cur = 0
-    max = 0
-    for i in s:
-        if i in 'ABC': cur += 1
-        else:
-            if cur > max: max = cur
-            cur = 0
-    return max
-
-def func_2520(s: str) -> int:
-    cur = 0
-    max = 0
-    for i in s:
-        if i not in 'AE': cur += 1
-        else:
-            if cur > max: max = cur
-            cur = 0
-    return max
-
-def func_2521(s: str) -> str:
-    cur = ['', 1]
-    max = ['', 1]
-    for i in s:
-        if i == cur[0]: cur[1] += 1
-        else:
-            if cur[1] > max[1]: max = cur
-            cur = [i, 1]
+    
+class hw1:
+    def _2() -> str:
+        def f(x, y, z): 
+            """(¬x ∧ y ∧ z) ∨ (¬x ∧ ¬y ∧ z) ∨ (¬x ∧ ¬y ∧ ¬z)"""
+            return (not x and y and z) or (not x and not y and z) or (not z and not y and not z)
         
-    if cur[1] > max[1]: max = cur
-    return f'{max[0]} {max[1]}'
+        results = [0, 1]
+        result = 'x y z F\n'
+        for x in results:
+            for y in results: 
+                for z in results:
+                    r = f(x, y, z)
+                    r = 1 if r else 0
+                    if r: result += f'{x} {y} {z} {r}\n'
+        return result
 
-def func_2529(s: str) -> str:
-    s = open(f'./files/{s}', 'r').read()
-    import string
-    string.ascii_uppercase
-    max_list = [[],0]
-    cur = ['',0]
-    for j, i in enumerate(s):
-        #print(j/len(s), i, cur, max_list) if j%10000 == 0 else ...
-        cm = string.ascii_uppercase.find(i)
-        if cm > cur[1]:
-            cur[0], cur[1] = cur[0]+i, cm
-        else:
-            if len(cur[0]) > max_list[1]: max_list = [[cur[0]], len(cur[0])]
-            elif cur[0] not in max_list[0] and len(cur[0]) > max_list[1]: max_list[0].append(cur[0])
-            cur = [i, cm]
-    return f'{max_list[0][0]} {max_list[1]}'
-
-def func_2531(s: str) -> str:
-    s = open(f'./files/{s}', 'r').read()
-    import string
-    string.ascii_uppercase
-    max_list = [[],0]
-    cur = ['',99999999, 0]
-    for j, i in enumerate(s):
-        #print(j/len(s), i, cur, max_list) if j%100000 == 0 else ...
-        cm = string.ascii_uppercase.find(i)
-        if cm > cur[1]:
-            cur[0], cur[1] = cur[0]+i, cm
-        else:
-            if len(cur[0]) > max_list[1]: max_list = [[cur[2]], len(cur[0])]
-            elif cur[0] not in max_list[0] and len(cur[0]) > max_list[1]: max_list[0].append(cur[2])
-            cur = [i, cm, j+1]
-    return f'{max_list[0][0]}'
-
-def func_2533(s: str) -> str:
-    s = open(f'./files/{s}', 'r').read()
-    import string
-    string.ascii_uppercase
-    max_list = [[],0]
-    cur = ['',0, 0]
-    for j, i in enumerate(s):
-        print(j/len(s), i, cur, max_list) if j%10000 == 0 else ...
-        cm = string.ascii_uppercase.find(i)
-        if cm < cur[1]:
-            cur[0], cur[1] = cur[0]+i, cm
-        else:
-            if len(cur[0]) > max_list[1]:
-                max_list = [[cur[0]], len(cur[0])]
-            elif cur[0] not in max_list[0] and len(cur[0]) > max_list[1]:
-                max_list[0].append(cur[0])
-            cur = [i, cm, j+1]
-    return f'{max_list[0][0]}'
-
-def func_2518(s: str) -> int:
-    cur = 0
-    max_num = 0
-    for i in s:
-        if i != 'D': cur += 1
-        else:
-            if cur > max_num: max_num = cur
-            cur = 0
-    return max_num
-
-
-
-def func_2538(file_name: str) -> int:
-    data = ''
-    with open(f'./files/{file_name}', 'r', encoding='utf-8') as file: data = file.read()
-    max_len = 0
-    cur_len = 0
-    state = False
-    for v in data:
-        if v == '(': # match -> case проще
-            if state: 
-                state = False
-                if cur_len > max_len: max_len = cur_len
-                cur_len = 0
-            else: state = True
-        elif v == ')':
-            if state: 
-                cur_len += 1
-                state = False
-            else: 
-                state = False
-                if cur_len > max_len: max_len = cur_len
-                cur_len = 0
-    if cur_len > max_len: max_len = cur_len
-    return max_len
+    def _5(num: int) -> int:
+        num = int(num)
+        return int(bin(num)[2:][::-1], base=2)
     
+    def _14() -> int:
+        for base in range(2, 37):
+            try: 
+                if int('12', base) * int('33', base) == int('406', base): return base
+            except ValueError: continue
 
-def func_2548(file_name: str) -> int:
-    data = ''
-    with open(f'./files/{file_name}', 'r', encoding='utf-8') as file: data = file.read()
-    return len(data.split('KTOS'))-1
-
-
-def func_2715(file_name: str) -> int:
-    data = ''
-    with open(f'./files/{file_name}', 'r', encoding='utf-8') as file: data = file.read()
-    max_len = 0
-    cur_len = 0
-    is_odd_cur = False
-    for v in data:
-        if int(v)%2:
-            if not is_odd_cur:
-                if cur_len > max_len: max_len = cur_len
-                cur_len = 1
-                is_odd_cur = True
-            else: cur_len += 1
-        else: 
-            if is_odd_cur:
-                if cur_len > max_len: max_len = cur_len
-                cur_len = 1
-                is_odd_cur = False
-            else: cur_len += 1
-    if cur_len > max_len: max_len = cur_len
-    return max_len
-
-def func_3155_main_runtime(file_name: str, find_value: str) -> str:
-    data = ''
-    with open(f'./files/{file_name}', 'r', encoding='utf-8') as file: data = file.read()
-    res = {}
-    foundA = False
-    for v in data:
-        if v == find_value: foundA = True
-        elif foundA:
-            res[v] = res[v] + 1 if v in res else 1
-            foundA = False
-    cm = 0
-    result = ''
-    for k, v in res.items():
-        if v > cm:
-            result = f'{k}{v}'
-            cm = v
-    return result
-
-
-def func_3155(f): return func_3155_main_runtime(f, 'A')
-def func_3156(f): return func_3155_main_runtime(f, 'X')
-
-def func_3158(file_name: str) -> str:
-    data = ''
-    with open(f'./files/{file_name}', 'r', encoding='utf-8') as file: data = file.read()
-    res = {}
-    for i, v in enumerate(data):
-        try:
-            if data[i-1] == 'A' and data[i+1] == 'C': res[v] = res[v] + 1 if v in res else 1
-        except: pass
-         
-            
-    cm = 0
-    result = ''
-    for k, v in res.items():
-        if v > cm:
-            result = f'{k}{v}'
-            cm = v
-    return result
-
-
-def func_3748(file_name: str) -> str:
-    data = ''
-    with open(f'./files/{file_name}', 'r', encoding='utf-8') as file: data = file.read()
-    res = {}
-    for i, v in enumerate(data):
-        try:
-            if data[i-2] == data[i-1]: res[v] = res[v] + 1 if v in res else 1
-        except: pass
-         
-            
-    cm = 0
-    result = ''
-    for k, v in res.items():
-        if v > cm:
-            result = f'{k}{v}'
-            cm = v
-    return result
-
-
-def func_3749(file_name: str) -> str:
-    data = ''
-    with open(f'./files/{file_name}', 'r', encoding='utf-8') as file: data = file.read()
-    res = {}
-    for i, v in enumerate(data):
-        try:
-            if data[i+2] == data[i+1]: res[v] = res[v] + 1 if v in res else 1
-        except: pass
-         
-            
-    cm = 0
-    result = ''
-    for k, v in res.items():
-        if v > cm:
-            result = f'{k}{v}'
-            cm = v
-    return result
-
-
-def func_3750(file_name: str) -> str:
-    data = ''
-    with open(f'./files/{file_name}', 'r', encoding='utf-8') as file: data = file.read()
-    res = {}
-    for i, v in enumerate(data):
-        try:
-            if data[i-1] == data[i+1]: res[v] = res[v] + 1 if v in res else 1
-        except: pass
-         
-            
-    cm = 0
-    result = ''
-    for k, v in res.items():
-        if v > cm:
-            result = f'{k}{v}'
-            cm = v
-    return result
-
-
-
-
-def func_3351_runtime(file_name: str) -> int:
-    data = ''
-    with open(f'./files/{file_name}', 'r', encoding='utf-8') as file: data = file.read()
-    res = [[], 0]
-    cur = [[], 99999]
-
-    for i, v in enumerate(data):
+    def _24():
+        data = file('https://kpolyakov.spb.ru/cms/files/ege-sym/24-230.txt')
+        query = '8???54???22'
+        found = []
         
-        if ord(v) < cur[1]:
-            cur[0].append(i)
-            cur[1] = ord(v)
-        else:
-            if len(cur[0]) > res[1]: res = [[cur[0]], len(cur[0])]
-            elif len(cur[0]) == res[1]: res[0].append(cur[0])
-            cur = [[i], 999999]
-        print(f'\n\n{i} ({ord(v)}): ', cur, res)
-    if len(cur[0]) > res[1]: res = [[cur[0]], len(cur[0])]
-    elif len(cur[0]) == res[1]: res[0].append(cur[0])
-    return res
 
-def func_3351(file_name: str) -> int: return func_3351_runtime(file_name)[0][0][0]
-def func_3352(file_name: str) -> int: return func_3351_runtime(file_name)[0][1][0]
-def func_3353(file_name: str) -> int: return func_3351_runtime(file_name)[0][2][0]
+        for substr in data.split('ZZ'):
+            is_equal = True
+            try: int(substr)
+            except: continue
+            if len(substr) != len(query): continue
+            for i, num in enumerate(substr):
+                if query[i] == '?': continue
+                if query[i] != num: is_equal = False
 
-def func_3354(file_name: str) -> str:
-    chrs = func_3351_runtime(file_name)[0][0]
-    print(chrs)
-    data = ''
-    with open(f'./files/{file_name}', 'r', encoding='utf-8') as file: data = file.read()
-    res = ''
-    for c in chrs: res += data[c]
+            found.append(substr) if is_equal else ...
 
-    return res
+        print(f'Совпадения с {query}: '+', '.join(map(str, found)))
+        if len(found) > 1: print(f'\nНайдено {len(found)} совпадений! Выбрано {found[1]}')
+        res = []
+        ret = 1
+        for num in found[1]:
+            if int(num) in [1,3,5,7,9]: res.append(int(num))
+        for num in res: ret *= num
+        return ret
 
 
-def func_3438(file_name: str) -> str:
-    data = ''
-    with open(f'./files/{file_name}', 'r', encoding='utf-8') as file: data = file.read()
-    cnt = 0 
-    for i, v in enumerate(data):
-        try:
-            test = data[i] + data[i+1] + data[i+2] + data[i+3] + data[i+4]
-            if test == test[::-1]: cnt += 1
-        except: pass
 
-    return cnt
-    
-def func_3439(file_name: str) -> str:
-    data = ''
-    with open(f'./files/{file_name}', 'r', encoding='utf-8') as file: data = file.read()
-    cnt = 0 
-    for i, v in enumerate(data):
-        if v == data[-i-1]: cnt += 1
-    return cnt//2
+
+data = {
+    'polakov': {
+        'descr': 'Задачи с сайта полякова',
+        'baseurl': None,
+        'index': True
+    },
+
+    'hw1': {
+        'descr': 'Домашнее задание от 18 октября 2023 года',
+        'index': False
+    }
+}

@@ -1,52 +1,74 @@
-import corotune
-import importlib
-import functions
-        
+import functions, corotune, importlib
 color = functions.Color()
-db = functions.load_db()
-args = ['-code', '-s']
+include = ''
 
-
-
-def run(num):
-    try:
-        inputs = []
-        inputs_len = functions.get_inputs(num)
-        for input_num in range(inputs_len):
-            inputs.append(input(f"{color.yellow()}{functions.get_hash()}{color.gray()} > {color.cyan()}{num}{color.gray()} {color.green()}{input_num+1}/{inputs_len}{color.gray()} > {color.magenta()}"))
-        global corotune
-        corotune = importlib.reload(corotune)
-        if inputs == ['']*len(inputs): return True
-        try:
-            result = eval(f'{db[num]}({", ".join(["inputs["+str(input_num)+"]" for input_num in range(len(inputs))])})')
-            print(f'{color.green()}{result}\n{color.reset()}')
-            return True
-        except Exception as e:
-            print(f'{color.red()}{e}{color.reset()}')
-            return True
-    except KeyboardInterrupt: return False
-
-
-print(f'\n\n{color.gray()}--- {color.reset()}Задания {color.gray()}---')
-print(f'{color.yellow()}Доступные задачи: {color.green()}{f"{color.gray()}, {color.green()}".join(map(str, db.keys()))}')
-print(f'{color.yellow()}Доступные аргументы: {color.green()}{f"{color.gray()}, {color.green()}".join(args)}')
-print(f'{color.gray()}Укажите номер задачи, при необходимости можно использовать аргумент. Например:{color.magenta(False)} 123 {color.yellow(False)}-loop{color.reset()}\n')
 while True:
-    db = functions.load_db()
-    try: 
-        u = input(f'\n{color.yellow()}{functions.get_hash()}{color.gray()} > {color.cyan()}mainloop {color.gray()}> {color.magenta()}').split(' ')
-        num = int(u[0])
-        try: arg = u[1]
-        except: arg = '-loop'
-    except ValueError: 
-        print(f'{color.red()}Это не номер')
-        continue
-    except KeyboardInterrupt:
-        exit()
+    try: task_id = input(f'\n{color.yellow()}main {functions.lim(color.magenta())} ')
+    except KeyboardInterrupt: exit()
+    search_results = []
+    if task_id.startswith('/'):
+        command = task_id.split(' ')[0]
+        query = task_id.split(' ')[1]
 
-    # print(f'\n{color.cyan()}https://informatics.msk.ru/mod/statements/view.php?chapterid={num}{color.reset()}')
+        if command == '/only':
+            for runtime in corotune.data:
+                if query.lower() in runtime: 
+                    search_results.append(runtime)
+                    
+            
+            if search_results == []:
+                print(f'{color.red()}Not found\n')
+                continue
+            elif len(search_results) != 1:
+                search_query = input(f'''{color.yellow()}{f"{functions.lim(color.yellow(),', ')}".join(search_results)} {functions.lim(color.magenta())} ''').lower()
+                for runtime in corotune.data:
+                    if runtime.lower().startswith(search_query):
+                        include = runtime
+                        break
+                
+                if not include: 
+                    print(f'{color.red()}Not found\n')
+                    continue  
 
-    if arg == '-loop': 
-        while run(num): pass
-    elif arg == '-code': functions.show_code(num)
-    else: run(num)
+            else: include = search_results[0]
+            print(f'{color.green()}Current runtime: {include}\n')
+
+
+    
+    else:    
+        
+        for runtime in corotune.data:
+            if not runtime['index']: continue 
+            if task_id.lower() in functions.info(runtime): 
+                search_results.append(runtime)
+            
+        if search_results == []:
+            print(f'{color.red()}Not found\n')
+            continue
+        elif include == '':
+            if len(search_results) != 1:
+                class_name = ''
+                search_query = input(f'''{color.yellow()}{f"{functions.lim(color.yellow(),', ')}".join(search_results)} {functions.lim(color.magenta())} ''').lower()
+                for runtime in corotune.data:
+                    if runtime.lower().startswith(search_query):
+                        class_name = runtime
+                        break
+                
+                if not class_name: 
+                    print(f'{color.red()}Not found\n')
+                    continue  
+
+            else: class_name = search_results[0]
+        else: class_name = include
+
+        print(f'{color.blue()}{functions.code(class_name, task_id)}\n')
+        
+        while True:
+            try: 
+                functions = importlib.reload(functions)
+                result = functions.run(class_name, task_id)
+                if result.passed: print(f'{color.green()}{result.result}\n')
+                else: print(f'{color.red()}{result.error}\n')
+                if include != '': break
+
+            except KeyboardInterrupt: break

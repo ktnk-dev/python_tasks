@@ -1,3 +1,8 @@
+class Result:
+    def __init__(self, passed, value) -> None:
+        self.passed = passed
+        if passed: self.result = value
+        else: self.error = value
 
 class Color: 
     def __init__(self, force_unsupport = False) -> None:
@@ -43,47 +48,58 @@ class Color:
     
     def reset(self):
         return self.color.RESET if self.support else ''
-        
-color = Color(True)         
-        
-def get_hash():
-    with open('corotune.py', 'r', encoding='utf-8') as file:
-        result = hash(file.read())
-    return str(hex(result))[3:10]
+    
+color = Color()
 
+def lim(c: str = '', d: str = '>') -> str: return f'{color.gray()}{d}{c}'
 
-def get_inputs(num): 
-    with open('corotune.py', 'r', encoding='utf-8') as file:
-        core = file.read().split(f'def func_')
-        for func in core:
+def file(file_string: str) -> str:
+    if 'http://' in file_string or 'https://' in file_string:
+        import requests
+        print(f'{color.blue()}Downloading file:{color.cyan()} {file_string.split("/")[-1]}{color.magenta()}')
+        data = requests.get(file_string).text
+
+    else: 
+        with open(file_string, 'r', encoding='utf-8') as local_file: data = local_file.read()
+        print(f'{color.cyan()}Loaded local file:{color.cyan()} {file_string}{color.magenta()}')
+
+    return data
+
+import corotune
+import inspect
+import importlib
+
+def info(class_name: str, task_id = False) -> list | dict | bool:
+        global corotune 
+        corotune = importlib.reload(corotune)
+        data = eval(f'corotune.{class_name}.__dict__')
+        if not task_id: return [name[1:] for name in data if name[0] == '_' and name[1] != '_'] 
+        else: 
             try:
-                if int(func.split('(')[0]) == num: 
-                    return len(func.split('(')[1].split(')')[0].split(','))
-            except ValueError: continue
+                return {
+                    'args': inspect.getfullargspec(data[f'_{task_id}']).args,
+                    'code': inspect.getsource(data[f'_{task_id}']),
+                }
+            except: return False
+
+def run(class_name: str, task_id, args: list = []) -> Result:
+    target = info(class_name, task_id)
+    if not target: return Result(False, 'Unknown "task_id" or "class_name"')
+    if args == []:
+        for arg in target['args']: args.append(str(input(f'{color.yellow()}{class_name} {lim(color.cyan())} {task_id} {lim(color.green())} {arg} {lim(color.magenta())} ')))
+    elif len(args) != len(target['args']): return Result(False, 'Arguments count error')
+    
+    global corotune 
+    corotune = importlib.reload(corotune)
+
+    try: return Result(True, eval(f'corotune.{class_name}._{task_id}({", ".join([f"args[{i}]" for i, v in enumerate(args) ])})'))
+    except Exception as e: return Result(False, e)
 
 
-def show_code(num, var = False):
-    with open('corotune.py', 'r', encoding='utf-8') as file:
-        core = file.read().split(f'def func_')
-        for func in core:
-            try:
-                if int(func.split('(')[0]) == num: 
-                    response = f'{color.green()}def func_{func}print(func_{num}({", ".join(["input()"]*get_inputs(num))})){color.reset()}'
-                    if not var: print(f'{response}\n')
-                    else: return response
-            except ValueError: continue
-
-
-def load_db():
-    db = {}
-    with open('corotune.py', 'r', encoding='utf-8') as file:
-        core = file.read().split(f'def func_')
-        for func in core:
-            try:
-                num = int(func.split('(')[0])
-                db[num] = f'corotune.func_{num}'
-            except ValueError: continue
-    return db
-
-
+def code(class_name: str, task_id) -> str:
+    func = info(class_name, task_id)
+    base = f'class Solution:\n{func["code"].replace(f"def _{task_id}", "def run")}\n'
+    if 'file(' in func['code'] or 'file (' in func['code']: base = f'{inspect.getsource(file).replace("print", "# print")}\n{base}'
+    base += f'result = Solution.run({",".join(["input()" for _ in func["args"]])})\nprint(result)'
+    return base
 
