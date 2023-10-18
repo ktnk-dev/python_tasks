@@ -1,17 +1,5 @@
 from functions import file
 
-class test:
-    def _2(string: str) -> int:
-        return f'123: {string}'
-    
-    def _file(filename: str) -> int:
-        return file(filename)[:50]+'...'
-    
-    def _add(a, b) -> int:
-        return int(a)+int(b)
-
-
-    
 class hw1:
     def _2() -> str:
         def f(x, y, z): 
@@ -43,7 +31,6 @@ class hw1:
         query = '8???54???22'
         found = []
         
-
         for substr in data.split('ZZ'):
             is_equal = True
             try: int(substr)
@@ -65,17 +52,99 @@ class hw1:
         return ret
 
 
+class polakov: 
+    def _2523():
+        data = file('https://kpolyakov.spb.ru/cms/files/ege-sym/24-1.txt')
+        symbols = 'qwertyuiopasdfghjklzxcvbnm'.upper()
+        for i in symbols:
+            data = data.replace(i, ' ')
+        
+        m = 0
+        for i in data.split():
+            if int(i)%2: m = max(m, int(i))
+
+        return m
+
+    def _4923(): 
+        data = file('https://kpolyakov.spb.ru/cms/files/ege-sym/24-196.txt')
+        data = data.replace('ZX', '_').replace('ZY', '_')
+        data = data.replace('Z', ' ').replace('X', ' ').replace('Y', ' ')
+
+        return len(max(data.split(), key=lambda x: len(x)))
+    
+
+    def _4924(): 
+        data = file('https://kpolyakov.spb.ru/cms/files/ege-sym/24-197.txt')
+        data = data.replace('ZXY', '_').replace('ZYX', '_')
+        data = data.replace('Z', ' ').replace('X', ' ').replace('Y', ' ')
+
+        return len(max(data.split(), key=lambda x: len(x)))
+    
+
+    def _5389(): 
+        data = file('https://kpolyakov.spb.ru/cms/files/ege-sym/24-215.txt')
+        data = data.replace('B', 'A').replace('C', 'A').replace('2', '1').replace('3', '1')
+        data = data.replace('A11', '_')
+        data = data.replace('A', ' ').replace('1', ' ')
+        return len(max(data.split(), key=lambda x: len(x)))
+    
+    # 5392, 5391, 5387
+
+    def _5392(): 
+        data = file('https://kpolyakov.spb.ru/cms/files/ege-sym/24-215.txt')
+        data = data.replace('B', 'A').replace('C', 'A').replace('2', '1').replace('3', '1')
+        data = data.replace('A1A1A', 'A1A A1A')
+        data = data.replace('A1A', '_')
+        data = data.replace('A', ' ').replace('1', ' ')
+        return len(max(data.split(), key=lambda x: len(x)))
+    
+    def _5391(): 
+        data = file('https://kpolyakov.spb.ru/cms/files/ege-sym/24-215.txt')
+        data = data.replace('B', 'A').replace('C', 'A').replace('2', '1').replace('3', '1')
+        data = data.replace('1A1', '_')
+        data = data.replace('A', ' ').replace('1', ' ')
+        return len(max(data.split(), key=lambda x: len(x)))
+    
+    def _5387(): 
+        data = file('https://kpolyakov.spb.ru/cms/files/ege-sym/24-215.txt')
+        data = data.replace('B', 'A').replace('C', 'A').replace('2', '1').replace('3', '1')
+        data = data.replace('A1', '_')
+        data = data.replace('A', ' ').replace('1', ' ')
+        return len(max(data.split(), key=lambda x: len(x)))
+
+    def _2527():
+        data = file('https://kpolyakov.spb.ru/cms/files/ege-sym/24-1.txt')
+        for i in 'QWERTYUIOPASDFGHJKLZXCVBNM02468': data = data.replace(i, ' ')
+        return max([int(num) for num in data.split()])
+    
+
+    def _5390(): 
+        data = file('https://kpolyakov.spb.ru/cms/files/ege-sym/24-215.txt')
+        data = data.replace('B', 'A').replace('C', 'A').replace('2', '1').replace('3', '1')
+        data = data.replace('11A', '_')
+        data = data.replace('A', ' ').replace('1', ' ')
+        return len(max(data.split(), key=lambda x: len(x)))
+    
+    def _5388(): 
+        data = file('https://kpolyakov.spb.ru/cms/files/ege-sym/24-215.txt')
+        data = data.replace('B', 'A').replace('C', 'A').replace('2', '1').replace('3', '1')
+        data = data.replace('1A', '_')
+        data = data.replace('A', ' ').replace('1', ' ')
+        return len(max(data.split(), key=lambda x: len(x)))
+
+
 
 
 data = {
-    'test': {
+    'polakov': {
         'descr': 'Тестовые задачи',
-        'baseurl': None,
-        'index': None
+        'baseurl': 'https://kpolyakov.spb.ru/school/ege/gen.php?action=viewTopic&topicId=%i',
+        'index': True
     },
-
     'hw1': {
         'descr': 'Домашнее задание от 18 октября 2023 года',
-        'index': False
+        'index': False,
+        'baseurl': None,
+
     }
 }
