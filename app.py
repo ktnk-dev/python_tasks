@@ -70,5 +70,6 @@ while True:
                 if result.passed: print(f'{color.green()}{result.result}\n')
                 else: print(f'{color.red()}{result.error}\n')
                 if include != '': break
+                if len(functions.info(class_name, task_id)['args']) == 0: break
 
             except KeyboardInterrupt: break
