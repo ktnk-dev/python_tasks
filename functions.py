@@ -69,7 +69,7 @@ import corotune
 import inspect
 import importlib
 
-def info(class_name: str, task_id = False) -> list | dict | bool:
+def info(class_name: str, task_id = False) -> list:
         global corotune 
         corotune = importlib.reload(corotune)
         data = eval(f'corotune.{class_name}.__dict__')

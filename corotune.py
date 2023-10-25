@@ -133,6 +133,89 @@ class polakov:
         return len(max(data.split(), key=lambda x: len(x)))
 
 
+class ex:
+    def _5(n: int):
+        n = int(n)
+        def tobase(n, b):
+            d = []
+            while n:
+                d.append(int(n % b))
+                n = n//b
+            return ''.join(map(str, d[::-1]))
+
+
+        # 1
+        v = tobase(n, 3)
+
+        # 2
+        if int(n)%3 == 0: v = f'1{v}02'
+        else:
+            q = int(n)%3
+            q = q*4
+            q = tobase(q, 3)
+            v += q
+
+        # 3
+        return int(v, 3)
+
+    def _14(n: int):
+        s = '7*x*939717 + 27*x*75 + 139*x*7'
+        #n = int(n)
+        def tobase(n, b):
+            d = []
+            while n:
+                d.append(int(n % b))
+                n = n//b
+            return ''.join(map(str, d[::-1]))
+
+        res = eval(s.replace('x',n))
+        return res, not res%22, tobase(int(n), 23)
+
+    def _17():
+        f = file('https://kompege.ru/files/gHQ7ncvzh.txt')
+        f = f.split()
+        m = []
+        for i, v in enumerate(f):
+            if not i: continue
+            v2 = int(v)
+            v1 = int(f[i-1])
+
+            allowed = 1
+            for i in [v1, v2]:
+                if len(str(abs(i))) == 4:
+                    allowed = 2 if allowed == 1 else 0
+
+            if (v1+v2)**2 > max(v1,v2)**2: allowed = 0
+            if str(max(v1,v2))[-2:] != '39': allowed = 0 
+            if len(str(max(v1,v2)).replace('-', '')) != 4: allowed = 0
+            if allowed == 2:
+                print(v1, v2)
+                m.append(v1+v2)
+    
+
+        return len(m), max(m)
+
+
+    def _24():
+        f = file('https://kompege.ru/files/HIJpUMRws.txt')
+        m, c = 0, 0
+        f = f.replace('9', '8').replace('C','A').replace('B', 'A')
+        for i, v in enumerate(f):
+            v1 = f[i-1]
+            v2 = v
+            
+            if not i: continue
+
+            if v2 == v1:
+                m = max(m, c)
+                c = 1
+            else: 
+                c += 1
+
+        return m, c , max(m, c)
+            
+
+        
 
 
 data = {
@@ -146,5 +229,10 @@ data = {
         'index': False,
         'baseurl': None,
 
+    },
+    'ex': {
+        'descr': 'Экзамен',
+        'index': True,
+        'baseurl': None,
     }
 }
