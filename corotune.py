@@ -180,18 +180,14 @@ class ex:
             v2 = int(v)
             v1 = int(f[i-1])
 
-            allowed = 1
-            for i in [v1, v2]:
-                if len(str(abs(i))) == 4:
-                    allowed = 2 if allowed == 1 else 0
-
-            if (v1+v2)**2 > max(v1,v2)**2: allowed = 0
-            if str(max(v1,v2))[-2:] != '39': allowed = 0 
-            if len(str(max(v1,v2)).replace('-', '')) != 4: allowed = 0
-            if allowed == 2:
-                print(v1, v2)
-                m.append(v1+v2)
-    
+            if str(max(v1,v2))[-2:] != '39': continue
+            if 4 not in [len(str(abs(v1))), len(str(abs(v2)))] and len(str(abs(v1))) != len(str(abs(v2))):continue
+            if (v1+v2)**2 > max(v1,v2)**2: continue
+            if len(str(max(v1,v2)).replace('-', '')) != 4: continue
+            
+            print(v1, v2)
+            m.append(v1+v2)
+        
 
         return len(m), max(m)
 
