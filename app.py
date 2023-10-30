@@ -1,15 +1,27 @@
-import functions, corotune, importlib
+import functions, importlib, os
 color = functions.Color()
 include = ''
 command_prefix = '#'
 code_show = False
 url_show = True
 infinity = False
+doc_show = True
 
+if 'merge.py' in os.listdir('./'):
+    try: i = input(f'{color.green()}Merge file found!\n{color.cyan()}Do you want merge? (y/n) {functions.lim(color.magenta())} ')
+    except KeyboardInterrupt: i = 'n'
+    if i.lower() == 'y': 
+        result = functions.merge_class()
+        if result.passed: print(f'\n{color.green()}{result.result}\n')
+        else: print(f'\n{color.red()}{result.error}\n')
+    else: print(f'\n{color.red()}Merge ignored\n')
+
+import corotune
 
 while True:
     try: task_id = input(f'\n{color.yellow()}main {functions.lim(color.magenta())} ')
     except KeyboardInterrupt: exit()
+    corotune = importlib.reload(corotune)
     search_results = []
     if task_id.startswith(command_prefix):
         command = task_id.split(' ')[0][1:]
@@ -62,6 +74,24 @@ while True:
             else: 
                 url_show = True
                 print(f'{color.green()}URL showing enabled\n')
+        
+        if command == 'doc':
+            if doc_show:
+                doc_show = False
+                print(f'{color.red()}Docs showing disabled\n')
+            else: 
+                doc_show = True
+                print(f'{color.green()}Docs showing enabled\n')
+
+        if command == 'share':
+            if query not in corotune.data:
+                print(f'{color.red()}Not found\n')
+                continue
+            else: 
+                result = functions.share_class(query)
+                if result.passed: print(f'{color.green()}{result.result}\n')
+                else: print(f'{color.red()}{result.error}\n')
+            
 
                 
 
@@ -97,8 +127,13 @@ while True:
                    
 
         print(f'{color.blue()}{functions.code(class_name, task_id)}\n') if code_show else ...
+
+        if doc_show: 
+            docstr = functions.info(class_name, task_id)["doc"]
+            docstr = docstr.replace("\n", " ") if docstr != None else None
+            print(f'{color.gray()}{docstr}\n') if docstr != None else ...
         if corotune.data[class_name]["baseurl"] and url_show: print(f'{color.blue()}URL: {color.cyan()}{corotune.data[class_name]["baseurl"].replace("%i", str(task_id))}')
-        
+
         while True:
             try: 
                 functions = importlib.reload(functions)
