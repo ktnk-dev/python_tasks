@@ -115,9 +115,65 @@ class t:
 
         return количество_положительных_чисел
 
+    def _6_1():
+        
+        # 6.1
+        import math
+        def A(x, y, z): 
+            return math.sqrt( abs(x) - math.sqrt(abs(y)) ) / (1 + x * 2 + y * 2)
+ 
+        def B(x, y, z): 
+            return y * (math.atan(z) + math.atan(x)) 
+        
+        def V(a, b): 
+            return (a**2) * (b**2)
 
+        x = float(input("Введите x: ")) 
+        y = float(input("Введите y: ")) 
+        z = float(input("Введите z: ")) 
+        
+        if A(x, y, z)is None or math.isnan(A(x, y, z)): 
+            exit("Не удалось вычислить значение функции A")
 
+        if math.isnan(B(x, y, z)): 
+            exit("Не удалось вычислить значение функции B")
 
+        print("Результат:", V(A(x,y,z), B(x,y,z)))
+
+    
+    def _6_2():
+
+        # 6.2
+        import math
+        def A(x, y, z): 
+            return math.sqrt( abs(x) - math.sqrt(abs(y)) ) / (1 + x * 2 + y * 2)
+
+        def B(x, y, z): 
+            return y * (math.atan(z) + math.atan(x)) 
+
+        def V(a, b): 
+            return (a**2) * (b**2)
+
+        def W(a, b): 
+            return (a**0.5) - b
+
+        def F(v, w): 
+            return 10*v*w - v
+
+        x = float(input("Введите x: ")) 
+        y = float(input("Введите y: ")) 
+        z = float(input("Введите z: ")) 
+
+        if A(x, y, z)is None or math.isnan(A(x, y, z)): 
+            exit("Не удалось вычислить значение функции A")
+
+        if math.isnan(B(x, y, z)): 
+            exit("Не удалось вычислить значение функции B")
+
+        a = A(x, y, z)
+        b = B(x, y, z)
+
+        print("Результат:", F(V(a, b), W(a, b)))
 
 
 x = [ # это двумерный массив
