@@ -1,6 +1,10 @@
 from functions import file
 
 class example:
+    descr = "Различные примеры функций | https://github.com/ktnk-dev/python_tasks"
+    index = True
+    baseurl = None
+
     def _1() -> str: 
         """Это пример функции"""
         return 'Привет, мир'
@@ -17,12 +21,3 @@ class example:
         """Это пример функции с ошибкой"""
         return 1+'lol'
     
-
-
-data = {
-    "example": {
-        "descr": "Различные примеры функций",
-        "index": True,
-        "baseurl": "https://github.com/ktnk-dev/python_tasks" # в строку можно добавить %i, оно будет заменено на название функции
-    }
-}
