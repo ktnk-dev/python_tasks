@@ -65,9 +65,37 @@ def file(file_string: str) -> str:
 
     return data
 
-import corotune
+try: import corotune
+except ImportError: 
+    print(f'\n{color.red()}Corotune does not exist! Creating...\n')
+    with open('./corotune.py', 'w', encoding='utf-8') as corotune_file: corotune_file.write(file('https://raw.githubusercontent.com/ktnk-dev/python_tasks/main/corotune.py'))
+    import corotune
+    print(f'{color.green()}Example corotune created')
+
 import inspect
 import importlib
+
+def get_corotune_data() -> dict:
+    classes = inspect.getmembers(corotune, inspect.isclass)
+    result = {}
+    for (class_name, data) in classes:
+        try: descr = data.descr
+        except: descr = 'No description'
+
+        try: baseurl = data.baseurl
+        except: baseurl = None
+
+        try: index = data.index
+        except: index = True
+
+        result[class_name] = {
+            'descr': descr,
+            'baseurl': baseurl,
+            'index': index
+        }
+    return result
+
+
 
 def info(class_name: str, task_id = False) -> list:
         global corotune 
@@ -106,10 +134,8 @@ def code(class_name: str, task_id) -> str:
 
 def share_class(class_name):
     source_code = inspect.getsource(eval(f'corotune.{class_name}'))
-    class_data = corotune.data[class_name]
     merge_info = {
         'name': class_name,
-        'data': class_data
     }
 
     with open('merge.py', 'w', encoding='utf-8') as file: file.write(f'{source_code}\n\n'+f'info = {merge_info}')
@@ -128,16 +154,11 @@ def merge_class():
     
     new_corotune = 'from functions import file\n\n'
     
-    for class_name in corotune.data.keys():
+    for class_name in get_corotune_data().keys():
         new_corotune += inspect.getsource(eval(f'corotune.{class_name}')) + '\n\n'
 
     new_corotune += source_code + '\n\n'
 
-    new_data = corotune.data
-    new_data[info["name"]] = info["data"]
-    new_data_str = json.dumps(new_data, ensure_ascii=False, indent=4).replace(' true', ' True').replace(' false', ' False').replace(' null', ' None')
-
-    new_corotune += f'data = {new_data_str}'
 
     with open('corotune.py', 'w', encoding='utf-8') as file: file.write(new_corotune)
 

@@ -1,4 +1,12 @@
 import functions, importlib, os
+try: 
+    from pprint import pprint 
+    pprint_runtime = True 
+
+except ImportError: 
+    pprint_runtime = False
+
+
 color = functions.Color()
 include = ''
 command_prefix = '#'
@@ -28,7 +36,7 @@ while True:
         query = task_id.split(' ')[1] if len(task_id.split(' ')) > 1 else ''
 
         if command == 'only':
-            for runtime in corotune.data:
+            for runtime in functions.get_corotune_data():
                 if query.lower() in runtime: 
                     search_results.append(runtime)
                     
@@ -38,7 +46,7 @@ while True:
                 continue
             elif len(search_results) != 1:
                 search_query = input(f'''{color.yellow()}{f"{functions.lim(color.yellow(),', ')}".join(search_results)} {functions.lim(color.magenta())} ''').lower()
-                for runtime in corotune.data:
+                for runtime in functions.get_corotune_data():
                     if runtime.lower().startswith(search_query):
                         include = runtime
                         break
@@ -84,7 +92,7 @@ while True:
                 print(f'{color.green()}Docs showing enabled\n')
 
         if command == 'share':
-            if query not in corotune.data:
+            if query not in functions.get_corotune_data():
                 print(f'{color.red()}Not found\n')
                 continue
             else: 
@@ -98,8 +106,8 @@ while True:
     
     else:    
         if include == '':
-            for runtime in corotune.data:
-                if not corotune.data[runtime]['index']: continue 
+            for runtime in functions.get_corotune_data():
+                if not functions.get_corotune_data()[runtime]['index']: continue 
                 if task_id.lower() in functions.info(runtime): 
                     search_results.append(runtime)
             
@@ -109,7 +117,7 @@ while True:
             if len(search_results) != 1:
                 class_name = ''
                 search_query = input(f'''{color.yellow()}{f"{functions.lim(color.yellow(),', ')}".join(search_results)} {functions.lim(color.magenta())} ''').lower()
-                for runtime in corotune.data:
+                for runtime in functions.get_corotune_data():
                     if runtime.lower().startswith(search_query):
                         class_name = runtime
                         break
@@ -126,19 +134,22 @@ while True:
                 continue
                    
 
-        print(f'{color.blue()}{functions.code(class_name, task_id)}\n') if code_show else ...
+        print(f'{color.blue()}{functions.code(class_name, task_id)}{color.magenta()}\n') if code_show else ...
 
         if doc_show: 
             docstr = functions.info(class_name, task_id)["doc"]
             docstr = docstr.replace("\n", " ") if docstr != None else None
-            print(f'{color.gray()}{docstr}\n') if docstr != None else ...
-        if corotune.data[class_name]["baseurl"] and url_show: print(f'{color.blue()}URL: {color.cyan()}{corotune.data[class_name]["baseurl"].replace("%i", str(task_id))}')
+            print(f'{color.gray()}{docstr}{color.magenta()}\n') if docstr != None else ...
+        if functions.get_corotune_data()[class_name]["baseurl"] and url_show: print(f'{color.blue()}URL: {color.cyan()}{functions.get_corotune_data()[class_name]["baseurl"].replace("%i", str(task_id))}{color.magenta()}')
 
         while True:
             try: 
                 functions = importlib.reload(functions)
                 result = functions.run(class_name, task_id)
-                if result.passed: print(f'{color.green()}{result.result}\n')
+                if result.passed: 
+                    print(f'{color.green()}', end='')
+                    if pprint_runtime: pprint(result.result, width=25, sort_dicts=False)
+                    else: print(f'{result.result}\n')
                 else: print(f'{color.red()}{result.error}\n')
                 if not infinity: break
                 if len(functions.info(class_name, task_id)['args']) == 0: break
