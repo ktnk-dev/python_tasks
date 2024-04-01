@@ -65,6 +65,23 @@ def file(file_string: str) -> str:
 
     return data
 
+def check(result, answer):
+    print(f'\n{color.gray()}*{color.cyan()} Your answer:{color.magenta()} {result}')
+    print(f'{color.gray()}*{color.blue()} True answer:{color.magenta()} {answer}')
+    if result == answer: print(f'{color.gray()}*{color.blue()} {color.green()}100% {color.gray()}|{color.green()} Pass')
+    elif str(result) == str(answer): print(f'{color.gray()}*{color.blue()} {color.green()}100% {color.gray()}|{color.yellow()} Types are not same')
+    else:
+        from difflib import SequenceMatcher
+        compare_ratio = round(SequenceMatcher(None, str(result), str(answer)).ratio()*100)
+        if compare_ratio > 80: print(f'{color.gray()}*{color.blue()} {color.yellow()}{compare_ratio}% {color.gray()}|{color.red()} Failed')
+        else: print(f'{color.gray()}*{color.blue()} {color.red()}{compare_ratio}% {color.gray()}|{color.red()} Failed')
+    print(color.magenta())
+
+def iterator(data, lenght):
+    from itertools import product
+    for result in product(data, repeat = lenght):
+        yield result
+
 try: import corotune
 except ImportError: 
     print(f'\n{color.red()}Corotune does not exist! Creating...\n')
@@ -129,6 +146,8 @@ def code(class_name: str, task_id) -> str:
     func = info(class_name, task_id)
     base = f'class Solution:\n{func["code"].replace(f"def _{task_id}", "def run")}\n'
     if 'file(' in func['code'] or 'file (' in func['code']: base = f'{inspect.getsource(file).replace("print", "# print")}\n{base}'
+    if 'check(' in func['code'] or 'check (' in func['code']: base = f'def check(a, b): return a\n{base}'
+    
     base += f'result = Solution.run({",".join(["input()" for _ in func["args"]])})\nprint(result)'
     return base
 
@@ -152,7 +171,7 @@ def merge_class():
     info = merge.info
     source_code = inspect.getsource(eval(f'merge.{info["name"]}'))
     
-    new_corotune = 'from functions import file\n\n'
+    new_corotune = 'from functions import file, check\n\n'
     
     for class_name in get_corotune_data().keys():
         new_corotune += inspect.getsource(eval(f'corotune.{class_name}')) + '\n\n'
