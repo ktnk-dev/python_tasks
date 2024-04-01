@@ -1,4 +1,4 @@
-from functions import file
+from functions import file, check
 
 class example:
     descr = "Различные примеры функций | https://github.com/ktnk-dev/python_tasks"
@@ -21,3 +21,6 @@ class example:
         """Это пример функции с ошибкой"""
         return 1+'lol'
     
+    def _excepted():
+        math = 2+2
+        return check(math, 5)
